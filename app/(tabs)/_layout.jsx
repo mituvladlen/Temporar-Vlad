@@ -4,6 +4,7 @@ import { Tabs, Redirect } from "expo-router"; // For setting up tab navigation
 import { Image, Text, View } from "react-native"; // For React Native components
 import search from "../../assets/icons/search.png"; // Import the search icon image
 import eye from "../../assets/icons/eye.png"; // Import the eye icon image
+import home from "../../assets/icons/home.png";
 
 // Component to render tab icons with labels
 const TabIcon = ({ icon, color, name, focused }) => {
@@ -56,6 +57,21 @@ const TabLayout = () => {
             ),
           }}
         />
+        <Tabs.Screen
+          name="index" // Name of the route for the tab
+          options={{
+            title: "Index", // Title of the tab
+            headerShown: false, // Hide the header for this tab
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={home} // Icon for the 'found' tab
+                color={color} // Color for the icon based on focus state
+                name="Index" // Name of the tab
+                focused={focused} // Whether the tab is currently focused
+              />
+            ),
+          }}
+        />
         {/* Define the 'lost' tab */}
         <Tabs.Screen
           name="lost" // Name of the route for the tab
@@ -76,7 +92,7 @@ const TabLayout = () => {
       </Tabs>
 
       {/* Set up the status bar with custom background color and light text style */}
-      <StatusBar backgroundColor="#161622" style="light" />
+      <StatusBar style="auto" />
     </>
   );
 };

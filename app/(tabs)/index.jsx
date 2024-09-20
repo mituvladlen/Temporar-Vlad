@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { useRouter, Tabs, Redirect } from 'expo-router';
-import TabLayout from './(tabs)/_layout';
+
 
 
 export default function App() {
@@ -11,17 +11,11 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome</Text>
-      <TouchableOpacity onPress={() => router.push('/found')}>
-        <Text style={styles.link1}>Go to Found</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push('/lost')}>
-        <Text style={styles.link2}>Go to Lost</Text><TabLayout />
-      </TouchableOpacity>
 
       {/* Avatar Container */}
       <TouchableOpacity style={styles.avatarContainer} onPress={() => router.push('/profile')}>
         <Image
-          source={require('../assets/icons/generic-avatar.png')} // Update with your avatar image path
+          source={require('../../assets/icons/generic-avatar.png')} // Update with your avatar image path
           style={styles.avatar}
         />
       </TouchableOpacity>
