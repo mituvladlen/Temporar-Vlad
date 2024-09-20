@@ -15,7 +15,7 @@ const FoundScreen = () => {
     <LinearGradient colors={['#C3D6F9', '#F1FBFF']} style={styles.container}>
       <View style={styles.container}>
         {/* Title Section */}
-        <Text style={styles.title}>Lost Item Report</Text>
+        <Text style={styles.title}>Found Item Report</Text>
 
         {/* Person Info Section */}
         <View style={styles.personContainer}>

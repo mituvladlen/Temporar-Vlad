@@ -2,9 +2,17 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons'; // Importing icons
+import { useRouter } from 'expo-router'; // Import the useRouter hook
 
 const LostScreen = () => {
-  const [description, setDescription] = useState(''); // State to hold the text input
+  const router = useRouter();
+  
+  // State to hold the text input
+  const [description, setDescription] = useState(''); // Add useState for description
+
+  const handleContinuePress = () => {
+    router.push('../continue'); // Navigate to the "continue" page
+  };
 
   return (
     <LinearGradient
@@ -13,7 +21,7 @@ const LostScreen = () => {
     >
       <View style={styles.container}>
         {/* Title Section */}
-        <Text style={styles.title}>Found Item Report</Text>
+        <Text style={styles.title}>Lost Item Report</Text>
 
         {/* Text Input Section */}
         <View style={styles.textInputContainer}>
@@ -30,13 +38,14 @@ const LostScreen = () => {
         <View style={styles.iconsContainer}>
           <TouchableOpacity style={styles.iconButton}>
             <FontAwesome name="camera" size={32} color="#007BFF" />
-            <Text style={styles.iconText}>Camera</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton}>
             <FontAwesome name="image" size={32} color="#007BFF" />
-            <Text style={styles.iconText}>Image</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity onPress={handleContinuePress} style={styles.continueContainer}>
+          <Text style={styles.continueText}>Continue</Text>
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
@@ -79,9 +88,21 @@ const styles = StyleSheet.create({
   iconButton: {
     alignItems: 'center',
   },
-  iconText: {
-    marginTop: 8,
-    fontSize: 14,
+  continueContainer: {
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+    marginTop: 60,
+  },
+  continueText: {
+    fontSize: 18,
+    fontWeight: 'bold',
     color: '#007BFF',
   },
 });
