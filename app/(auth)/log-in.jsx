@@ -1,175 +1,122 @@
-// import React, { useState } from 'react';
-// import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-// import { useRouter } from 'expo-router';
-
-// const LogIn = () => { 
-//   const [code, setCode] = useState(['', '', '', '', '', '']); 
-//   const inputRefs = useRef([]);
-//   const router = useRouter();
-
-//   const handleCodeChange = (text, index) => {
-//     let newCode = [...code];
-//     newCode[index] = text;
-//     if (text.length === 1 && index < 5) {
-//       inputRefs.current[index + 1].focus();
-//     }
-//     setCode(newCode);
-//   };
-
-//   const handleKeyPress = (e, index) => {
-//     if (e.nativeEvent.key === 'Backspace' && code[index] === '' && index > 0) {
-//       inputRefs.current[index - 1].focus();
-//     }
-//   };
-
-//   const handleSubmitCode = () => {
-//     const enteredCode = code.join('');
-//     console.log('Code entered:', enteredCode); //temporary
-//     if (enteredCode === '123456') {
-//       router.push('/(tabs)/index'); // Move to the main app
-//     }
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.formContainer}>
-//         <Text style={styles.title}>Enter the sent code</Text>
-//         <View style={styles.card}>
-//           <Text style={styles.subtitle}>Check your email for the code.</Text>
-//           <View style={styles.codeInputContainer}>
-//             {code.map((digit, index) => (
-//               <TextInput
-//                 key={index}
-//                 ref={(ref) => (inputRefs.current[index] = ref)}
-//                 value={digit}
-//                 onChangeText={(text) => handleCodeChange(text, index)}
-//                 onKeyPress={(e) => handleKeyPress(e, index)}
-//                 maxLength={1}
-//                 keyboardType="numeric"
-//                 style={styles.codeInput}
-//                 textAlign="center"
-//                 autoFocus={index === 0}
-//               />
-//             ))}
-//           </View>
-//         </View>
-//         <TouchableOpacity style={styles.button} onPress={handleSubmitCode}>
-//           <Text style={styles.buttonText}>Submit Code</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-// };
-
-
-// app/auth/login.jsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // For storing auth tokens
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router'; 
 
-export default function LogIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+// It's login page!
+const LogIn = () => {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = async () => {
-    // TODO: Implement real authentication logic with your backend
-    // For demonstration, we'll assume login is always successful and store a dummy token
-    const dummyToken = 'abc123'; // Replace with actual token from backend
-    try {
-      await AsyncStorage.setItem('userToken', dummyToken); // Save token to AsyncStorage
-      router.push('/auth/code-entry'); // Navigate to Code Entry screen
-    } catch (error) {
-      console.error('Error saving auth token:', error);
-      // Optionally, handle the error (e.g., show an alert to the user)
+  const validateEmail = (email) => {
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSubmit = () => {
+    if (validateEmail(email)) {
+      setError('');
+      router.push('/code-submission');
+      // email submission
+    } else {
+      setError('Please enter a valid email address.');
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+      <View style={styles.formContainer}>
+        <Text style={styles.title}>Welcome to Lost&Found</Text>
+        <View style={styles.card}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Enter your email:</Text>
+            <TextInput
+              style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="namesurname@gmail.com"
+              placeholderTextColor="#999"
+            />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonText} >Submit</Text>
+          </TouchableOpacity>
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        </View>
+      </View>
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#93a6e4',
+    backgroundColor: '#93a6e4'
   },
   formContainer: {
+    width: '90%',
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   title: {
-    fontSize: 25,
     fontWeight: 'bold',
+    fontSize: 25,
     color: '#fff',
-    marginBottom: 10, 
+    marginBottom: 20,
     marginTop: 20,
   },
   card: {
     width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderColor: '#93a6e4',
+    borderWidth: 1,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
     padding: 20,
-    
+    marginBottom: 20,
   },
-  subtitle: {
-    color: '#fff',
-    fontSize: 15,
-    marginBottom: 20, 
+  inputContainer: {
+    marginBottom: 20,
   },
-  codeInputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20, 
+  label: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 5,
+    marginLeft: 10,
   },
-  codeInput: {
-    width: 40,
-    height: 50,
-    borderRadius: 5,
+  input: {
+    height: 40,
+    borderRadius: 6,
     borderWidth: 1,
     borderColor: '#ddd',
-    fontSize: 18,
-    color: '#fff',
-    marginRight: 10,
-    textAlign: 'center', 
+    color: '#333',
+    paddingLeft: 10,
   },
   button: {
-    width: '80%',
-    backgroundColor: '#7286D3',
-    padding: 15,
+    width: '100%',
+    height: 40,
+    backgroundColor: '#7286d3',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
+    padding: 5,
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
   },
-});
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginTop: 10,
+    textAlign: 'center',
+  },
+};
+
+export default LogIn; 

@@ -24,7 +24,7 @@ const RootLayout = () => {
   return (
     <Stack>
       <Stack.Screen
-        name="auth/sign-in"
+        name="(auth)"
         options={{ headerShown: false }}
       />
       <Stack.Screen 
