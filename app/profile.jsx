@@ -42,6 +42,10 @@ const ProfileDetail = () => {
               title="Edit Profile" 
               onPress={() => router.push('/edit-profile')} // Navigate to the edit screen
             />
+            <Button 
+              title="Go home" 
+              onPress={() => router.push('/index')} // Navigate to the edit screen
+            />
           </View>
         </View>
       </View>

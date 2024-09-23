@@ -29,7 +29,8 @@ const RootLayout = () => {
       />
       <Stack.Screen 
         name="(tabs)" 
-        options={{headerTitle: "Home Page "}} />
+        options={{headerTitle: "Home Page "}} 
+      />
     </Stack>
   )
 }

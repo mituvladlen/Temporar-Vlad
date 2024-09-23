@@ -88,7 +88,6 @@ const TabLayout = () => {
             ),
           }}
         />
-        
       </Tabs>
 
       {/* Set up the status bar with custom background color and light text style */}

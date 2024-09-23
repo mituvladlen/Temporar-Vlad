@@ -8,12 +8,12 @@ const AuthLayout = () => {
     <>
       <Stack initialRouteName="sign-in">
         <Stack.Screen 
-          name='sign-in'
+          name='log-in'
           options = {{headerShown: false}}
         />
           
         <Stack.Screen 
-          name='log-in'
+          name='code-submission'
           options = {{headerShown: false}}
         />
       </Stack>
