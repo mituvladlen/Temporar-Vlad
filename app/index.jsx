@@ -1,53 +1,53 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router'; 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// It's login page!
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = async () => {
-    // TODO: Implement real authentication logic with your backend
-    // For demonstration, we'll assume login is always successful and store a dummy token
-    const dummyToken = 'abc123'; // Replace with actual token from backend
-    try {
-      await AsyncStorage.setItem('userToken', dummyToken); // Save token to AsyncStorage
-      router.push('/auth/log-in'); // Navigate to Code Entry screen
-    } catch (error) {
-      console.error('Error saving auth token:', error);
-      // Optionally, handle the error (e.g., show an alert to the user)
+  const validateEmail = (email) => {
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSubmit = () => {
+    if (validateEmail(email)) {
+      setError('');
+      router.push('/log-in');
+      // email submission
+    } else {
+      setError('Please enter a valid email address.');
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+      <View style={styles.formContainer}>
+        <Text style={styles.title}>Welcome to Lost&Found</Text>
+        <View style={styles.card}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Enter your email:</Text>
+            <TextInput
+              style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="namesurname@gmail.com"
+              placeholderTextColor="#999"
+            />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonText} >Submit</Text>
+          </TouchableOpacity>
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        </View>
+      </View>
     </View>
   );
-}
+};
 
 const styles = {
   container: {

@@ -1,67 +1,115 @@
-import React, { useState, useRef } from 'react';
+// import React, { useState } from 'react';
+// import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+// import { useRouter } from 'expo-router';
+
+// const LogIn = () => { 
+//   const [code, setCode] = useState(['', '', '', '', '', '']); 
+//   const inputRefs = useRef([]);
+//   const router = useRouter();
+
+//   const handleCodeChange = (text, index) => {
+//     let newCode = [...code];
+//     newCode[index] = text;
+//     if (text.length === 1 && index < 5) {
+//       inputRefs.current[index + 1].focus();
+//     }
+//     setCode(newCode);
+//   };
+
+//   const handleKeyPress = (e, index) => {
+//     if (e.nativeEvent.key === 'Backspace' && code[index] === '' && index > 0) {
+//       inputRefs.current[index - 1].focus();
+//     }
+//   };
+
+//   const handleSubmitCode = () => {
+//     const enteredCode = code.join('');
+//     console.log('Code entered:', enteredCode); //temporary
+//     if (enteredCode === '123456') {
+//       router.push('/(tabs)/index'); // Move to the main app
+//     }
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       <View style={styles.formContainer}>
+//         <Text style={styles.title}>Enter the sent code</Text>
+//         <View style={styles.card}>
+//           <Text style={styles.subtitle}>Check your email for the code.</Text>
+//           <View style={styles.codeInputContainer}>
+//             {code.map((digit, index) => (
+//               <TextInput
+//                 key={index}
+//                 ref={(ref) => (inputRefs.current[index] = ref)}
+//                 value={digit}
+//                 onChangeText={(text) => handleCodeChange(text, index)}
+//                 onKeyPress={(e) => handleKeyPress(e, index)}
+//                 maxLength={1}
+//                 keyboardType="numeric"
+//                 style={styles.codeInput}
+//                 textAlign="center"
+//                 autoFocus={index === 0}
+//               />
+//             ))}
+//           </View>
+//         </View>
+//         <TouchableOpacity style={styles.button} onPress={handleSubmitCode}>
+//           <Text style={styles.buttonText}>Submit Code</Text>
+//         </TouchableOpacity>
+//       </View>
+//     </View>
+//   );
+// };
+
+
+// app/auth/login.jsx
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router'; 
+import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // For storing auth tokens
 
-//It's for code input!
-
-const LogIn = () => { 
-  const [code, setCode] = useState(['', '', '', '', '', '']); 
-  const inputRefs = useRef([]); // Array of input references
+export default function LogIn() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
-  // Function to handle code input changes
-  const handleCodeChange = (text, index) => {
-    let newCode = [...code];
-    newCode[index] = text;
-
-    if (text.length === 1 && index < 5) {
-      inputRefs.current[index + 1].focus();
+  const handleLogin = async () => {
+    // TODO: Implement real authentication logic with your backend
+    // For demonstration, we'll assume login is always successful and store a dummy token
+    const dummyToken = 'abc123'; // Replace with actual token from backend
+    try {
+      await AsyncStorage.setItem('userToken', dummyToken); // Save token to AsyncStorage
+      router.push('/auth/code-entry'); // Navigate to Code Entry screen
+    } catch (error) {
+      console.error('Error saving auth token:', error);
+      // Optionally, handle the error (e.g., show an alert to the user)
     }
-
-    setCode(newCode);
-  };
-
-  // Function to handle backspace and move focus to the previous input
-  const handleKeyPress = (e, index) => {
-    if (e.nativeEvent.key === 'Backspace' && code[index] === '' && index > 0) {
-      inputRefs.current[index - 1].focus();
-    }
-  };
-
-  // Handle code submission (e.g., send to backend)
-  const handleSubmitCode = () => {
-    const enteredCode = code.join('');
-    console.log('Code entered:', enteredCode); //temporary
-    //!!!!!router.push('/');
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.formContainer}>
-        <Text style={styles.title}>Enter the sent code</Text>
-        <View style={styles.card}>
-          <Text style={styles.subtitle} numberOfLines={3}>Check your email. In the email, you can find a code that you should enter here.</Text>
-          <View style={styles.codeInputContainer}>
-            {code.map((digit, index) => (
-              <TextInput
-                key={index}
-                ref={(ref) => (inputRefs.current[index] = ref)} // Attach ref for each input
-                value={digit}
-                onChangeText={(text) => handleCodeChange(text, index)}
-                onKeyPress={(e) => handleKeyPress(e, index)} // Handle backspace
-                maxLength={1}
-                keyboardType="numeric"
-                style={styles.codeInput}
-                textAlign="center"
-                autoFocus={index === 0} // Focus the first input by default
-              />
-            ))}
-          </View>
-        </View>
-        <TouchableOpacity style={styles.button} onPress={handleSubmitCode}>
-          <Text style={styles.buttonText}>Submit Code</Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.title}>Login</Text>
+      
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your email"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -125,6 +173,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-
-export default LogIn
