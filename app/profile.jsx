@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Button } from 'react-native';
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router'; // Add useRouter for navigation
 import genericAvatar from '../assets/icons/generic-avatar.png';
@@ -41,6 +41,10 @@ const ProfileDetail = () => {
             <Button 
               title="Edit Profile" 
               onPress={() => router.push('/edit-profile')} // Navigate to the edit screen
+            />
+            <Button 
+              title="Go Home" 
+              onPress={() => router.push('/')}
             />
           </View>
         </View>
