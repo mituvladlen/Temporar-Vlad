@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { useRouter } from 'expo-router';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import axios from 'axios';
 
-export default function App() {
-  const router = useRouter();
+export default function ViewAnnouncements() {
   const [locationPermission, setLocationPermission] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
+  const [announcements, setAnnouncements] = useState([]);
   const mapRef = useRef(null); // Ref for the MapView
 
   useEffect(() => {
@@ -18,12 +18,23 @@ export default function App() {
         setLocationPermission(true);
         let location = await Location.getCurrentPositionAsync({});
         setUserLocation(location.coords); // Set the current user location
+        fetchAnnouncements(); // Fetch announcements after getting user location
       } else {
         setLocationPermission(false);
         Alert.alert('Permission Denied', 'Location permission is required to use this feature.');
       }
     })();
   }, []);
+
+  const fetchAnnouncements = async () => {
+    try {
+      const response = await axios.get('YOUR_BACKEND_URL/announcements'); // Replace with your backend URL
+      setAnnouncements(response.data); // Assume the response contains an array of announcement coordinates
+    } catch (error) {
+      console.error("Error fetching announcements:", error);
+      Alert.alert("Error", "There was an error fetching announcements. Please try again.");
+    }
+  };
 
   const recenterMap = () => {
     if (mapRef.current && userLocation) {
@@ -34,10 +45,6 @@ export default function App() {
         longitudeDelta: 0.0421,
       }, 1000);
     }
-  };
-
-  const handleViewAnnouncementsPress = () => {
-    router.push('../ViewAnnouncements'); // Navigate to the "ViewAnnouncements" page
   };
 
   return (
@@ -53,33 +60,33 @@ export default function App() {
         }}
       >
         {locationPermission && userLocation && (
-          <Marker
-            coordinate={{
-              latitude: userLocation.latitude,
-              longitude: userLocation.longitude,
-            }}
-            title="You are here"
-            description="Your current location"
-          />
+          <>
+            <Marker
+              coordinate={{
+                latitude: userLocation.latitude,
+                longitude: userLocation.longitude,
+              }}
+              title="You are here"
+              description="Your current location"
+            />
+            {announcements.map((announcement, index) => (
+              <Marker
+                key={index}
+                coordinate={{
+                  latitude: announcement.latitude, // Assuming your announcement object has latitude and longitude
+                  longitude: announcement.longitude,
+                }}
+                title={announcement.title} // Assuming there's a title field
+                description={announcement.description} // Assuming there's a description field
+              />
+            ))}
+          </>
         )}
       </MapView>
 
       {/* Recenter Button */}
       <TouchableOpacity style={styles.recenterButton} onPress={recenterMap}>
         <Text style={styles.recenterButtonText}>Recenter</Text>
-      </TouchableOpacity>
-
-      {/* View Announcements Button */}
-      <TouchableOpacity style={styles.viewAnnouncementsButton} onPress={handleViewAnnouncementsPress}>
-        <Text style={styles.viewAnnouncementsButtonText}>View Announcements</Text>
-      </TouchableOpacity>
-
-      {/* Avatar Container */}
-      <TouchableOpacity style={styles.avatarContainer} onPress={() => router.push('/profile')}>
-        <Image
-          source={require('../../assets/icons/generic-avatar.png')} // Update with your avatar image path
-          style={styles.avatar}
-        />
       </TouchableOpacity>
 
       <StatusBar style="auto" />
@@ -104,35 +111,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 14,
     fontWeight: 'bold',
-  },
-  viewAnnouncementsButton: {
-    position: 'absolute',
-    bottom: 50,
-    right: 20,
-    backgroundColor: 'green',
-    padding: 10,
-    borderRadius: 5,
-    zIndex: 1,
-  },
-  viewAnnouncementsButtonText: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  avatarContainer: {
-    position: 'absolute',
-    top: 55,
-    right: 20,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    overflow: 'hidden',
-    borderWidth: 3,
-    borderColor: 'black',
-    zIndex: 1,
-  },
-  avatar: {
-    width: '100%',
-    height: '100%',
   },
 });
