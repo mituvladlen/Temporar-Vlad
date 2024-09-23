@@ -21,7 +21,7 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ],
+, "app/continue.jsx"  ],
   "exclude": [
     "node_modules"
   ]
