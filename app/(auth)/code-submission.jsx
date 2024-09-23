@@ -26,7 +26,7 @@ const CodeSubmission = () => {
     const enteredCode = code.join('');
     console.log('Code entered:', enteredCode); //temporary
     if (enteredCode === '123456') {
-      router.push('../edit-profile'); // Move to the profile
+      router.replace('/edit-profile'); // Move to the profile
     }
   };
 
