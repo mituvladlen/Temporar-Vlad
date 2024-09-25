@@ -35,8 +35,7 @@ const ProfileDetail = () => {
             <Image source={atIcon} style={styles.icon} />
             <Text style={styles.infoText}>your.name@gmail.com</Text>
           </View>
-          
-          {/* Add Edit Profile Button */}
+
           <View style={styles.buttonContainer}>
             <Button 
               title="Edit Profile" 
@@ -44,7 +43,7 @@ const ProfileDetail = () => {
             />
             <Button 
               title="Go home" 
-              onPress={() => router.push('/index')} // Navigate to the edit screen
+              onPress={() => router.push('/welcome')} // Navigate to welcome page 
             />
           </View>
         </View>
@@ -81,8 +80,8 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   avatar: {
-    width: 120, // Increase the width
-    height: 120, // Increase the height
+    width: 120, 
+    height: 120, 
     borderRadius: 90,
   },
   nameContainer: {

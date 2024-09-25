@@ -26,8 +26,12 @@ const CodeSubmission = () => {
     const enteredCode = code.join('');
     console.log('Code entered:', enteredCode); //temporary
     if (enteredCode === '123456') {
-      router.replace('/edit-profile'); // Move to the profile
+      router.replace('/(tabs)/welcome'); // Move to the profile
     }
+  };
+
+  const handleResendCode = () => {
+    console.log('Resend Code Pressed'); //temporary
   };
 
   return (
@@ -55,6 +59,10 @@ const CodeSubmission = () => {
         </View>
         <TouchableOpacity style={styles.button} onPress={handleSubmitCode}>
           <Text style={styles.buttonText}>Submit Code</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleResendCode}>
+          <Text style={styles.resendText}>Resend</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -118,6 +126,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
+  },
+  resendText: {
+    color: '#fff',
+    fontSize: 14,
+    marginTop: 10,
+    textDecorationLine: 'underline', 
   },
 });
 

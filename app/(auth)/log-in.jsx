@@ -27,7 +27,7 @@ const LogIn = () => {
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.title}>Welcome to Lost&Found</Text>
+        <Text style={styles.title}>Welcome to Findr!</Text>
         <View style={styles.card}>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Enter your email:</Text>

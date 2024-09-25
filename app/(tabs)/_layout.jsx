@@ -58,15 +58,15 @@ const TabLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="index" // Name of the route for the tab
+          name="welcome" // Name of the route for the tab
           options={{
-            title: "Index", // Title of the tab
+            title: "Home", // Title of the tab
             headerShown: false, // Hide the header for this tab
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={home} // Icon for the 'found' tab
                 color={color} // Color for the icon based on focus state
-                name="Index" // Name of the tab
+                name="Home" // Name of the tab
                 focused={focused} // Whether the tab is currently focused
               />
             ),

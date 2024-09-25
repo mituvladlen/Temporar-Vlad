@@ -24,15 +24,21 @@ const RootLayout = () => {
   return (
     <Stack>
       <Stack.Screen
-        name="(auth)"
+        name="index" // New welcome screen
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="(auth)" // Authentication pages (e.g., login)
         options={{ headerShown: false }}
       />
       <Stack.Screen 
-        name="(tabs)" 
-        options={{headerTitle: "Home Page "}} 
+        name="(tabs)" // Main pages (e.g., after login)
+        options={{ headerTitle: "Home Page" }}
       />
     </Stack>
   )
 }
 
 export default RootLayout
+
