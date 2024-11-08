@@ -12,7 +12,7 @@ export default function Index() {
     try {
       const token = await AsyncStorage.getItem('userToken');
       if (token) {
-        router.replace('/(auth)/log-in'); // Redirect to home page if logged in
+        router.replace('/(tabs)/welcome'); // Redirect to home page if logged in
       } else {
         router.replace('/(auth)/log-in'); // Redirect to login if not logged in
       }
