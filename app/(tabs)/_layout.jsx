@@ -38,7 +38,10 @@ const TabLayout = () => {
             borderTopWidth: 1, // Width of the top border of the tab bar
             borderTopColor: "#232533", // Color of the top border of the tab bar
             height: 84, // Height of the tab bar
+            paddingBottom: 5,
+            paddingTop: 15,
           },
+          headerShown: false,
         }}
       >
         {/* Define the 'found' tab */}
@@ -67,6 +70,22 @@ const TabLayout = () => {
                 icon={home} // Icon for the 'found' tab
                 color={color} // Color for the icon based on focus state
                 name="Home" // Name of the tab
+                focused={focused} // Whether the tab is currently focused
+              />
+            ),
+          }}
+        />
+
+<Tabs.Screen
+          name="Announcements" // Name of the route for the tab
+          options={{
+            title: "Announcements", // Title of the tab
+            headerShown: false, // Hide the header for this tab
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={home} // Icon for the 'found' tab
+                color={color} // Color for the icon based on focus state
+                name="Announcements" // Name of the tab
                 focused={focused} // Whether the tab is currently focused
               />
             ),
